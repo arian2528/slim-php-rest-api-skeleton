@@ -62,3 +62,6 @@ Design patter: Factory
 Create Fetch route to handling fetch data request
 
  
+## Deploy to Heroku
+
+Create a Procfile in the root directory
