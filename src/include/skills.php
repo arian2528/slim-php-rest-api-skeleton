@@ -58,7 +58,7 @@
             // Prepare the query
             $stmt = $this->db->query($sql);
             // Fetch values from PDO array
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         /**
