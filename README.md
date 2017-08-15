@@ -8,7 +8,7 @@ This skeleton application was built for Composer. This makes setting up a new Sl
 
 Run this command from the directory in which you want to install your new Slim Framework application.
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
+    run: composer create-project  slim/slim-skeleton [my-app-name]
 
 Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
 
@@ -17,13 +17,22 @@ Replace `[my-app-name]` with the desired directory name for your new application
 
 To run the application in development, you can also run this command. 
 
-	php composer.phar start
+	run: composer start
 
 Run this command to run the test suite
 
-	php composer.phar test
+	run: composer test
 
 That's it! Now go build something cool.
 
-## Customize the REst API part
+## Setting the app enviroment
 
+For setting your .env variables
+
+run: composer require vlucas/phpdotenv
+
+Desc: https://packagist.org/packages/vlucas/phpdotenv
+
+
+
+## Customize the REst API part

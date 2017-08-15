@@ -11,6 +11,10 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 
+// Reading the .env variables
+$dotenv = new Dotenv\Dotenv('../');
+$dotenv->load();
+
 session_start();
 
 // Instantiate the app
@@ -22,6 +26,9 @@ require __DIR__ . '/../src/dependencies.php';
 
 // Register middleware
 require __DIR__ . '/../src/middleware.php';
+
+// Setting up classes
+require __DIR__ . '/../src/include/database.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
