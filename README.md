@@ -51,5 +51,14 @@ Modify the src/routes.php file
 Use Psr for handling Request/Response
 Add middleware to filter only specific request
 
-Add routes for CRUD functionality
+## Create the factory class
 
+Create src/include/factory.php
+Create a class to intantiate other classes depending teh service requested.
+Design patter: Factory
+
+## Add routes for CRUD functionality
+
+Create Fetch route to handling fetch data request
+
+ 

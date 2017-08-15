@@ -28,9 +28,48 @@ $app->get('/[{name}]', function ($request, $response, $args) {
 // Instructions
 
 $app->get('/api/instructions', function (Request $request, Response $response) {
+    // Log request
+    $this->logger->info("Slim-REst-API'/api/instructions' route");
     $instructions = array(
         'Title' => 'API Instructions',
         'Description' => 'Description'
     );
     return json_encode($instructions);
+});
+
+// Example
+// http://server.net/api/skills/fetch/id:1/type:1
+
+// Fetch services
+$app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Response $response){
+    // Log request
+    $this->logger->info("Slim-REst-API'/api/fetch' route");
+    // Get's the attributes from the url
+    $service = $request->getAttribute('service');
+    $params = explode('/', $request->getAttribute('params'));
+    // Build the filters params for the query
+    foreach ($params as $param) {
+        $param = explode(':',$param);
+        $filters[] = array($param[0] => $param[1] );
+    }
+
+    try{
+        // Establish connection with DB
+        $factory = new factory(new Database);
+        // Sets the service required
+        $item = $factory->create($service);
+        // Fetch the records
+        $result = $item->fetchRecords($filters);
+        // returns the result in json object
+
+    } catch(PDOException $e){
+        $result = array (
+                'success' => false,
+                'error' => ''.$e->getMessage().''
+        );
+        
+    }
+    
+    return json_encode($result);
+
 });
