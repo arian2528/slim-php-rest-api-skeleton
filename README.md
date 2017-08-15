@@ -65,3 +65,10 @@ Create Fetch route to handling fetch data request
 ## Deploy to Heroku
 
 Create a Procfile in the root directory
+
+run: heroku login
+run: heroku create
+
+This will create the app on Heroku
+
+run: git push heroku master
