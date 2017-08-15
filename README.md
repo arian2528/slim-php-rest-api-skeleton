@@ -33,6 +33,23 @@ run: composer require vlucas/phpdotenv
 
 Desc: https://packagist.org/packages/vlucas/phpdotenv
 
+Create .env and .env.example files
+Add .env to .gitignore
+Call the Dotenv class on index.php
 
+## Setting up the db connection
+
+Create new folder inside src, called include
+Inside folder include will add all the classes
+Create a file named database.php
+Design patter: Singleton
+Require the class on index.php
 
 ## Customize the REst API part
+
+Modify the src/routes.php file
+Use Psr for handling Request/Response
+Add middleware to filter only specific request
+
+Add routes for CRUD functionality
+
