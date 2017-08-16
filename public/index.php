@@ -12,8 +12,10 @@ if (PHP_SAPI == 'cli-server') {
 require __DIR__ . '/../vendor/autoload.php';
 
 // Reading the .env variables
-$dotenv = new Dotenv\Dotenv('../');
-$dotenv->load();
+if(getenv('DB_HOST') === null || getenv('DB_HOST') == '' ){
+    $dotenv = new Dotenv\Dotenv('../');
+    $dotenv->load(); 
+}
 
 session_start();
 
