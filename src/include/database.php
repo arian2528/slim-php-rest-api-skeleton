@@ -26,7 +26,7 @@
             $this->dbHost = getenv('DB_HOST');
             $this->dbUser = getenv('DB_USER');
             $this->dbPass = getenv('DB_PASS');
-            $this->dbName = getenv('DB_NAME');
+            $this->dbName = getenv('DB_NAME_PROD');
         }
 
         // Connect
