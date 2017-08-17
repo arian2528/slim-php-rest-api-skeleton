@@ -49,7 +49,7 @@ https://stackoverflow.com/questions/21592832/use-heroku-config-vars-with-php
 Create new folder inside src, called include
 Inside folder include will add all the classes
 Create a file named database.php
-Design patter: Singleton
+Design pattern: Singleton
 Require the class on index.php
 
 ## Customize the REst API part
@@ -61,8 +61,8 @@ Add middleware to filter only specific request
 ## Create the factory class
 
 Create src/include/factory.php
-Create a class to intantiate other classes depending teh service requested.
-Design patter: Factory
+Create a class to intantiate other classes depending the service requested.
+Design pattern: Factory
 
 ## Add routes for CRUD functionality
 

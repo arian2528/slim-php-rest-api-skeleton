@@ -1,6 +1,6 @@
 <?php
 
-    class skills {
+    class service {
         
         /**
         * Variable will contain the json response
@@ -11,7 +11,7 @@
         * Main table
         * @param $table
         */
-        private $table = 'skills';
+        private $table;
         /**
         * The db connection established in factory object
         * @param $db
@@ -28,8 +28,9 @@
         */
         private $noRecords = 'No records match the search criteria';
 
-        public function __construct($db){
+        public function __construct($db, $service){
             $this->db = $db;
+            $this->table = $service;
         }
         
         /**
@@ -67,7 +68,7 @@
         */
         public function getSql(){
 
-            $sql = "SELECT * FROM {$this->table} WHERE name IS NOT NULL ";
+            $sql = "SELECT * FROM {$this->table} WHERE id IS NOT NULL ";
 
             foreach ($this->filters as $filter) {
                 foreach ($filter as $key=>$value) {

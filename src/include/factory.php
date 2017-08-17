@@ -32,10 +32,6 @@
         * @param $type
         */
         public function create($type) {
-            switch ($type) {
-            case 'skills' :
-                return new skills($this->dbc);
-                break; 
-            }
+            return new service($this->dbc, $type);
         }
     }
