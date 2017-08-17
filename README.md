@@ -36,6 +36,13 @@ Desc: https://packagist.org/packages/vlucas/phpdotenv
 Create .env and .env.example files
 Add .env to .gitignore
 Call the Dotenv class on index.php
+Tip: Add local env variables on .env file,
+
+Follow this after you create your Heroku app
+If using Heroku, set your env variables on applications/settings
+Click on Config Variables. Add each variable as key=value
+access the variables in your code like this : getenv('KEY_NAME');
+https://stackoverflow.com/questions/21592832/use-heroku-config-vars-with-php
 
 ## Setting up the db connection
 

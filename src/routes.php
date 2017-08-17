@@ -42,17 +42,27 @@ $app->get('/api/instructions', function (Request $request, Response $response) {
 
 // Fetch services
 $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Response $response){
+    // default response
+    $result = array (
+            'success' => false
+    );
+    
     // Log request
     $this->logger->info("Slim-REst-API'/api/fetch' route");
     // Get's the attributes from the url
     $service = $request->getAttribute('service');
     $params = explode('/', $request->getAttribute('params'));
     // Build the filters params for the query
-    foreach ($params as $param) {
-        $param = explode(':',$param);
-        $filters[] = array($param[0] => $param[1] );
+    if(sizeof($params) > 0){
+        foreach ($params as $param) {
+            $param = explode(':',$param);
+            $filters[] = array($param[0] => $param[1] );
+        }
+    }else{
+        $errorMsg = array ('error' => 'Missing params in the request');
+        $result = array_merge($result,$errorMsg);
     }
-
+    
     try{
         // Establish connection with DB
         $factory = new factory(new Database);
