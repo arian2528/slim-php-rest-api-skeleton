@@ -46,14 +46,19 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
     $result = array (
             'success' => false
     );
+    $params = [];
+    $errorMsg = [];
     
     // Log request
     $this->logger->info("Slim-REst-API'/api/fetch' route");
     // Get's the attributes from the url
     $service = $request->getAttribute('service');
-    $params = explode('/', $request->getAttribute('params'));
+    $requestParams = $request->getAttribute('params');
+    if(isset($requestParams) && $requestParams != '' ){
+        $params = explode('/', $request->getAttribute('params'));
+    }
     // Build the filters params for the query
-    if(sizeof($params) > 0){
+    if(isset($params) && sizeof($params) > 0){
         foreach ($params as $param) {
             $param = explode(':',$param);
             $filters[] = array($param[0] => $param[1] );
@@ -61,6 +66,7 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
     }else{
         $errorMsg = array ('error' => 'Missing params in the request');
         $result = array_merge($result,$errorMsg);
+        return json_encode($result);
     }
     
     try{
