@@ -1,6 +1,14 @@
-<phpunit bootstrap="vendor/autoload.php">
+<phpunit bootstrap="vendor/autoload.php"
+        color="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        stopOnFailures="false"
+        syntaxCheck="false"
+        >
+    
     <testsuites>
-        <testsuite name="SlimSkeleton">
+        <testsuite name="Slim-API-Skeleton">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
