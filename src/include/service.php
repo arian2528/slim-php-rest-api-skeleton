@@ -23,10 +23,18 @@
         */
         private $filters;
         /**
+        * Params pass in the post request
+        * @param $params
+        */
+        private $params;
+        private $paramsValues;
+        /**
         * Standar message for no records
         * @param $noRecords
         */
         private $noRecords = 'No records match the search criteria';
+
+        private $recordsAdded = 'Records added';
 
         public function __construct($db, $service){
             $this->db = $db;
@@ -77,6 +85,66 @@
                     }
                 }
             }
+            return $sql;
+        }
+
+        /**
+        * Sets the params & triggers to get insert records
+        * @param $params
+        * return array
+        */
+        public function addRecords($paramsValues,$params){
+            
+            $this->params = $params;
+            $this->paramsValues = $paramsValues;
+
+            $result = $this->insertRecords();
+
+            return array (
+                'success' => true,
+                'results' => $result != false ? $result : $this->noRecords
+            );
+        }
+
+        /**
+        * Prepares the query & fetch the records
+        * return array
+        */
+        public function insertRecords(){
+            // Get the sql statement
+            $sql = $this->insertSql();
+            // Prepare the query
+            $stmt = $this->db->prepare($sql);
+
+            foreach ($this->paramsValues as $key=>$value) {
+                # code...
+                $stmt->bindParam($this->params['columnIndexValue'][$key], $this->paramsValues[$key]);
+
+                $array[] = $value;
+
+            }
+
+            // $stmt->bindParam(':name', $this->paramsValues[0]);
+            // $stmt->bindParam(':role_id', $this->paramsValues[1]);
+            // $stmt->bindParam(':status', $this->paramsValues[2]);
+            
+            $stmt->execute();
+            
+            return true;
+             
+        }
+
+        /**
+        * Build the query
+        * return string
+        */
+        public function insertSql(){
+
+            $columnsNames = implode(',', $this->params['column']);
+            $columnsIndexValues = implode(',', $this->params['columnIndexValue']);
+            $columnsValues = implode(',', $this->paramsValues);
+            $sql = "INSERT INTO {$this->table} ({$columnsNames}) VALUES ({$columnsIndexValues})";
+            
             return $sql;
         }
     }

@@ -38,7 +38,7 @@ $app->get('/api/instructions', function (Request $request, Response $response) {
 });
 
 // Example
-// http://server.net/api/skills/fetch/id:1/type:1
+// http://server.net/api/languages/fetch/role_id:1
 
 // Fetch services
 $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Response $response){
@@ -87,4 +87,79 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
     
     return json_encode($result);
 
+});
+
+// Insert services
+
+$app->post('/api/{service}/add', function(Request $request, Response $response){
+   
+    // default response
+    $result = array (
+            'success' => false
+    );
+    $params = [];
+    $errorMsg = [];
+    
+    // Log request
+    $this->logger->info("Slim-REst-API'/api/add' route");
+
+    // Get's the attributes from the url
+    $service = $request->getAttribute('service');
+
+    $services = new services($service);
+
+    $params = $services->getParams();
+
+    foreach ($params['column'] as $param) {
+        # code...
+        $requestParamsValues[] = $request->getParam($param);
+    }
+
+    try{
+        // Establish connection with DB
+        $factory = new factory(new Database);
+        // Sets the service required
+        $item = $factory->create($service);
+        // Add the records
+        $result = $item->addRecords($requestParamsValues,$params);
+
+    } catch(PDOException $e){
+        $result = array (
+                'success' => false,
+                'error' => ''.$e->getMessage().''
+        );
+        
+    }
+
+    return json_encode($result);
+
+    // Params
+    // $first_name = $request->getParam('first_name');
+    // $last_name = $request->getParam('last_name');
+    // $phone = $request->getParam('phone');
+    // $email = $request->getParam('email');
+    // $address = $request->getParam('address');
+    // $city = $request->getParam('city');
+    // $state = $request->getParam('state');
+    
+    // $sql = "INSERT INTO customers (first_name,last_name,phone,email,address,city,state) VALUES
+    // (:first_name,:last_name,:phone,:email,:address,:city,:state)";
+    // try{
+    //     // Get DB Object
+    //     $db = new db();
+    //     // Connect
+    //     $db = $db->connect();
+    //     $stmt = $db->prepare($sql);
+    //     $stmt->bindParam(':first_name', $first_name);
+    //     $stmt->bindParam(':last_name',  $last_name);
+    //     $stmt->bindParam(':phone',      $phone);
+    //     $stmt->bindParam(':email',      $email);
+    //     $stmt->bindParam(':address',    $address);
+    //     $stmt->bindParam(':city',       $city);
+    //     $stmt->bindParam(':state',      $state);
+    //     $stmt->execute();
+    //     echo '{"notice": {"text": "Customer Added"}';
+    // } catch(PDOException $e){
+    //     echo '{"error": {"text": '.$e->getMessage().'}';
+    // }
 });

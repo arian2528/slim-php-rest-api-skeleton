@@ -66,9 +66,9 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         }
 
         // Setting up classes
-        // require __DIR__ . '/../src/include/database.php';
+        // require __DIR__ . '/../../src/include/database.php';
         // require __DIR__ . '/../../src/include/factory.php';
-        // require __DIR__ . '/../../src/include/skills.php';
+        // require __DIR__ . '/../../src/include/service.php';
 
         // Register routes
         require __DIR__ . '/../../src/routes.php';
