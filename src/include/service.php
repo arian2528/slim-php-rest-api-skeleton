@@ -54,7 +54,7 @@
         * return array
         */
         public function getRecords(){
-            // Get the sql stament
+            // Get the sql statement
             $sql = $this->getSql();
             // Prepare the query
             $stmt = $this->db->query($sql);

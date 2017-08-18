@@ -4,7 +4,7 @@
      * Singleton class
      */
 
-    class Database{
+    class Database {
         // Properties
         private $dbHost;
         private $dbUser;

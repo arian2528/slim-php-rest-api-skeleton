@@ -76,7 +76,6 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
         $item = $factory->create($service);
         // Fetch the records
         $result = $item->fetchRecords($filters);
-        // returns the result in json object
 
     } catch(PDOException $e){
         $result = array (
