@@ -110,8 +110,7 @@ $app->post('/api/{service}/add', function(Request $request, Response $response){
 
     $params = $services->getParams();
 
-    foreach ($params['column'] as $param) {
-        # code...
+    foreach ($params['columnNames'] as $param) {
         $requestParamsValues[] = $request->getParam($param);
     }
 
@@ -128,38 +127,55 @@ $app->post('/api/{service}/add', function(Request $request, Response $response){
                 'success' => false,
                 'error' => ''.$e->getMessage().''
         );
+    }
+
+    return json_encode($result);
+});
+
+// Update Customer
+$app->put('/api/{service}/update/{id}', function(Request $request, Response $response){
+    
+    // default response
+    $result = array (
+            'success' => false
+    );
+    $params = [];
+    $errorMsg = [];
+    
+    // Log request
+    $this->logger->info("Slim-REst-API'/api/add' route");
+
+    // Get's the attributes from the url
+    $service = $request->getAttribute('service');
+    $id = $request->getAttribute('id');
+    
+    $services = new services($service);
+
+    $params = $services->getParams();
+
+    foreach ($params['columnNames'] as $param) {
+        if($request->getParam($param) !== null){
+            $requestParamsValues[] = $request->getParam($param);
+            $requestUpdateValues[$param] = $request->getParam($param);
+        }
         
+    }
+    
+    try{
+        // Establish connection with DB
+        $factory = new factory(new Database);
+        // Sets the service required
+        $item = $factory->create($service);
+        // Add the records
+        $result = $item->updateRecords($requestUpdateValues,$params,$id);
+
+    } catch(PDOException $e){
+        $result = array (
+                'success' => false,
+                'error' => ''.$e->getMessage().''
+        );
     }
 
     return json_encode($result);
 
-    // Params
-    // $first_name = $request->getParam('first_name');
-    // $last_name = $request->getParam('last_name');
-    // $phone = $request->getParam('phone');
-    // $email = $request->getParam('email');
-    // $address = $request->getParam('address');
-    // $city = $request->getParam('city');
-    // $state = $request->getParam('state');
-    
-    // $sql = "INSERT INTO customers (first_name,last_name,phone,email,address,city,state) VALUES
-    // (:first_name,:last_name,:phone,:email,:address,:city,:state)";
-    // try{
-    //     // Get DB Object
-    //     $db = new db();
-    //     // Connect
-    //     $db = $db->connect();
-    //     $stmt = $db->prepare($sql);
-    //     $stmt->bindParam(':first_name', $first_name);
-    //     $stmt->bindParam(':last_name',  $last_name);
-    //     $stmt->bindParam(':phone',      $phone);
-    //     $stmt->bindParam(':email',      $email);
-    //     $stmt->bindParam(':address',    $address);
-    //     $stmt->bindParam(':city',       $city);
-    //     $stmt->bindParam(':state',      $state);
-    //     $stmt->execute();
-    //     echo '{"notice": {"text": "Customer Added"}';
-    // } catch(PDOException $e){
-    //     echo '{"error": {"text": '.$e->getMessage().'}';
-    // }
 });

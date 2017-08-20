@@ -13,8 +13,13 @@
             switch ($this->service) {
                 case 'languages':
                     # code...
-                    $columnsNames = ['name','role_id','status'];
-                    $columnsIndexvalues = [':name',':role_id',':status'];
+                    $columnNames = ['name','role_id','status'];
+                    $columnNamePdo = [':name',':role_id',':status'];
+                    $columnName_Pdo = array(
+                        'name' => ':name',
+                        'role_id' => ':role_id',
+                        'status' => ':status'
+                    );
                     break;
                 
                 default:
@@ -23,8 +28,9 @@
             }
             
             return array(
-                'column' => $columnsNames,
-                'columnIndexValue' => $columnsIndexvalues
+                'columnNames' => $columnNames,
+                'columnNamePdo' => $columnNamePdo,
+                'columnName_Pdo' => $columnName_Pdo
             );
         }
 

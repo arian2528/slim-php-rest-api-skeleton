@@ -27,14 +27,37 @@
         * @param $params
         */
         private $params;
+        /**
+        * Values pass in the post request
+        * @param $paramsValues
+        */
         private $paramsValues;
+        /**
+        * Values pass in the post request key:column name value:value
+        * @param $requestUpdateValues
+        */
+        private $requestUpdateValues;
+        /**
+        * Values pass in the put request
+        * @param $updateId
+        */
+        private  $updateId;
         /**
         * Standar message for no records
         * @param $noRecords
         */
         private $noRecords = 'No records match the search criteria';
-
+        /**
+        * Standar message after adding records
+        * @param $recordsAdded
+        */
         private $recordsAdded = 'Records added';
+        /**
+        * Standar message after update records
+        * @param $recordsUpdated
+        */
+        private $recordsUpdated = 'Records updated';
+        
 
         public function __construct($db, $service){
             $this->db = $db;
@@ -102,7 +125,7 @@
 
             return array (
                 'success' => true,
-                'results' => $result != false ? $result : $this->noRecords
+                'results' => $result != false ? $this->recordsAdded : $this->noRecords
             );
         }
 
@@ -117,16 +140,8 @@
             $stmt = $this->db->prepare($sql);
 
             foreach ($this->paramsValues as $key=>$value) {
-                # code...
-                $stmt->bindParam($this->params['columnIndexValue'][$key], $this->paramsValues[$key]);
-
-                $array[] = $value;
-
+                $stmt->bindParam($this->params['columnNamePdo'][$key], $this->paramsValues[$key]);
             }
-
-            // $stmt->bindParam(':name', $this->paramsValues[0]);
-            // $stmt->bindParam(':role_id', $this->paramsValues[1]);
-            // $stmt->bindParam(':status', $this->paramsValues[2]);
             
             $stmt->execute();
             
@@ -140,11 +155,77 @@
         */
         public function insertSql(){
 
-            $columnsNames = implode(',', $this->params['column']);
-            $columnsIndexValues = implode(',', $this->params['columnIndexValue']);
+            $columnNames = implode(',', $this->params['columnNames']);
+            $columnNamePdo = implode(',', $this->params['columnNamePdo']);
             $columnsValues = implode(',', $this->paramsValues);
-            $sql = "INSERT INTO {$this->table} ({$columnsNames}) VALUES ({$columnsIndexValues})";
+            $sql = "INSERT INTO {$this->table} ({$columnNames}) VALUES ({$columnNamePdo})";
             
             return $sql;
         }
+
+        /**
+        * Sets the params & triggers to get insert records
+        * @param $params
+        * return array
+        */
+        public function updateRecords($requestUpdateValues,$params,$id){
+            
+            $this->params = $params;
+            $this->requestUpdateValues = $requestUpdateValues;
+            $this->updateId = $id;
+
+            $result = $this->modifyRecords();
+
+            return $result;
+
+            return array (
+                'success' => true,
+                'results' => $result != false ? $this->recordsUpdated : $this->noRecords
+            );
+        }
+
+        /**
+        * Prepares the query & fetch the records
+        * return array
+        */
+        public function modifyRecords(){
+            // Get the sql statement
+            $sql = $this->updateSql();
+            // Prepare the query
+            $stmt = $this->db->prepare($sql);
+
+            foreach ($this->requestUpdateValues as $key => $value) {
+                $stmt->bindParam($this->params['columnName_Pdo'][$key], $this->requestUpdateValues[$key]);
+            }
+            
+            $stmt->execute();
+            
+            return true;
+             
+        }
+
+        /**
+        * Build the query
+        * return string
+        */
+        public function updateSql(){
+
+            $sql = "UPDATE {$this->table} SET ";
+            $i = 0;
+            $size = sizeof($this->requestUpdateValues);
+
+            foreach ($this->requestUpdateValues as $key=>$value) {
+                $sql .= "{$key} = {$this->params['columnName_Pdo'][$key]} ";
+                
+                $i++;
+                
+                if($i < $size) { $sql .= ' , '; }
+                
+            }
+
+            $sql .= " WHERE id = {$this->updateId} ";
+            
+            return $sql;
+        }
+
     }
