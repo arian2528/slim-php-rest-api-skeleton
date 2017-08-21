@@ -67,7 +67,16 @@ Design pattern: Factory
 ## Add routes for CRUD functionality
 
 Create Fetch route to handling fetch data request
+Create Post route to insert new records
+Create Put route to update records
+Create Delete route to delete records
 
+# Add dynamic classes
+
+Create Services class to where the relation between the tables will be set. 
+The model of the tables are set in this class.
+Create Service class, controller for all route request.
+Create sqlQuery class for custom sql querys.
  
 ## Deploy to Heroku
 

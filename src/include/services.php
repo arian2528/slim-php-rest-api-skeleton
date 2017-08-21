@@ -12,7 +12,11 @@
             
             switch ($this->service) {
                 case 'languages':
-                    # code...
+                    $relation = array(
+                        'table' => 'roles',
+                        'column' => 'role_id',
+                        'type' => 1
+                    );
                     $columnNames = ['name','role_id','status'];
                     $columnNamePdo = [':name',':role_id',':status'];
                     $columnName_Pdo = array(
@@ -30,7 +34,8 @@
             return array(
                 'columnNames' => $columnNames,
                 'columnNamePdo' => $columnNamePdo,
-                'columnName_Pdo' => $columnName_Pdo
+                'columnName_Pdo' => $columnName_Pdo,
+                'relation' => $relation
             );
         }
 

@@ -43,9 +43,7 @@ $app->get('/api/instructions', function (Request $request, Response $response) {
 // Fetch services
 $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Response $response){
     // default response
-    $result = array (
-            'success' => false
-    );
+    $result = array ('success' => false);
     $params = [];
     $errorMsg = [];
     
@@ -53,6 +51,11 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
     $this->logger->info("Slim-REst-API'/api/fetch' route");
     // Get's the attributes from the url
     $service = $request->getAttribute('service');
+
+    $services = new services($service);
+
+    $params = $services->getParams();
+
     $requestParams = $request->getAttribute('params');
     if(isset($requestParams) && $requestParams != '' ){
         $params = explode('/', $request->getAttribute('params'));
@@ -75,7 +78,7 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
         // Sets the service required
         $item = $factory->create($service);
         // Fetch the records
-        $result = $item->fetchRecords($filters);
+        $result = $item->fetchRecords($filters,$params);
 
     } catch(PDOException $e){
         $result = array (
@@ -94,9 +97,7 @@ $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Respo
 $app->post('/api/{service}/add', function(Request $request, Response $response){
    
     // default response
-    $result = array (
-            'success' => false
-    );
+    $result = array ( 'success' => false );
     $params = [];
     $errorMsg = [];
     
@@ -136,14 +137,12 @@ $app->post('/api/{service}/add', function(Request $request, Response $response){
 $app->put('/api/{service}/update/{id}', function(Request $request, Response $response){
     
     // default response
-    $result = array (
-            'success' => false
-    );
+    $result = array ( 'success' => false );
     $params = [];
     $errorMsg = [];
     
     // Log request
-    $this->logger->info("Slim-REst-API'/api/add' route");
+    $this->logger->info("Slim-REst-API'/api/update' route");
 
     // Get's the attributes from the url
     $service = $request->getAttribute('service');
@@ -177,5 +176,36 @@ $app->put('/api/{service}/update/{id}', function(Request $request, Response $res
     }
 
     return json_encode($result);
+
+});
+
+// Delete Customer
+$app->delete('/api/{service}/delete/{id}', function(Request $request, Response $response){
+    // default response
+    $result = array ( 'success' => false );
+    $params = [];
+    $errorMsg = [];
+    
+    // Log request
+    $this->logger->info("Slim-REst-API'/api/delete' route");
+
+    // Get's the attributes from the url
+    $service = $request->getAttribute('service');
+    $id = $request->getAttribute('id');
+
+    try{
+        // Establish connection with DB
+        $factory = new factory(new Database);
+        // Sets the service required
+        $item = $factory->create($service);
+        // Add the records
+        $result = $item->deleteRecords($id);
+
+    } catch(PDOException $e){
+        $result = array (
+                'success' => false,
+                'error' => ''.$e->getMessage().''
+        );
+    }
 
 });

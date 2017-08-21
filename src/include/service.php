@@ -1,6 +1,6 @@
 <?php
 
-    class service {
+    class service extends sqlQuery{
         
         /**
         * Variable will contain the json response
@@ -57,11 +57,17 @@
         * @param $recordsUpdated
         */
         private $recordsUpdated = 'Records updated';
+        /**
+        * Standar message after delete records
+        * @param $recordDeleted
+        */
+        private $recordsDeleted = 'Records deleted';
         
 
         public function __construct($db, $service){
             $this->db = $db;
             $this->table = $service;
+            parent::__construct($service);
         }
         
         /**
@@ -69,9 +75,10 @@
         * @param $filters
         * return array
         */
-        public function fetchRecords($filters){
+        public function fetchRecords($filters,$params){
             $this->filters = $filters;
-
+            $this->params = $params;
+            
             $result = $this->getRecords();
 
             return array (
@@ -86,29 +93,11 @@
         */
         public function getRecords(){
             // Get the sql statement
-            $sql = $this->getSql();
+            $sql = $this->getSql($this->filters);
             // Prepare the query
             $stmt = $this->db->query($sql);
             // Fetch values from PDO array
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-
-        /**
-        * Build the query
-        * return string
-        */
-        public function getSql(){
-
-            $sql = "SELECT * FROM {$this->table} WHERE id IS NOT NULL ";
-
-            foreach ($this->filters as $filter) {
-                foreach ($filter as $key=>$value) {
-                    if($key !== 'id' && $value !== 'all'){
-                        $sql .= " AND {$key} = {$value}";
-                    }
-                }
-            }
-            return $sql;
         }
 
         /**
@@ -176,8 +165,6 @@
 
             $result = $this->modifyRecords();
 
-            return $result;
-
             return array (
                 'success' => true,
                 'results' => $result != false ? $this->recordsUpdated : $this->noRecords
@@ -224,6 +211,50 @@
             }
 
             $sql .= " WHERE id = {$this->updateId} ";
+            
+            return $sql;
+        }
+
+        /**
+        * Sets the params & triggers to get insert records
+        * @param $params
+        * return array
+        */
+        public function deleteRecords($id){
+            
+            $this->deleteId = $id;
+
+            $result = $this->delteRecords();
+
+            return array (
+                'success' => true,
+                'results' => $result != false ? $this->deleteRecords : $this->noRecords
+            );
+        }
+
+        /**
+        * Prepares the query & fetch the records
+        * return array
+        */
+        public function delteRecords(){
+            // Get the sql statement
+            $sql = $this->deleteSql();
+            // Prepare the query
+            $stmt = $this->db->prepare($sql);
+            
+            $stmt->execute();
+            
+            return true;
+             
+        }
+
+        /**
+        * Build the query
+        * return string
+        */
+        public function deleteSql(){
+
+            $sql = "DELETE FROM {$this->table} WHERE id = {$this->updateId}";
             
             return $sql;
         }
