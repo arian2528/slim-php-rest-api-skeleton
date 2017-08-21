@@ -47,7 +47,7 @@
         // TODO: Make dynamic the conditions addon
 
         private function languageQuery(){
-            $sql = "SELECT l.* , r.name 
+            $sql = "SELECT l.id,l.name,l.status,r.name as role 
                         FROM languages AS l 
                         LEFT JOIN roles AS r ON r.id = l.role_id 
                         WHERE l.id IS NOT NULL";
