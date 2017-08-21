@@ -32,8 +32,11 @@
 
             switch ($this->service) {
                 case 'languages' :
-                $sql = $this->languageQuery();
-                break;
+                    $sql = $this->languageQuery();
+                    break;
+                case 'roles' :
+                    $sql = $this->rolesQuery();
+                    break;
             }
 
             return $sql;
@@ -56,6 +59,22 @@
                 foreach ($filter as $key=>$value) {
                     if($key !== 'id' && $value !== 'all'){
                         $sql .= " AND l.{$key} = {$value}";
+                    }
+                }
+            }
+
+            return $sql;
+        }
+
+        private function rolesQuery(){
+            $sql = "SELECT id, name, status 
+                        FROM  roles 
+                        WHERE id IS NOT NULL";
+
+            foreach ($this->filters as $filter) {
+                foreach ($filter as $key=>$value) {
+                    if($key !== 'id' && $value !== 'all'){
+                        $sql .= " AND {$key} = {$value}";
                     }
                 }
             }

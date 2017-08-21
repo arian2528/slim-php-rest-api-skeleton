@@ -25,6 +25,20 @@
                         'status' => ':status'
                     );
                     break;
+
+                case 'roles':
+                    $relation = array(
+                        'table' => 'languages',
+                        'column' => 'id',
+                        'type' => 'n'
+                    );
+                    $columnNames = ['name','status'];
+                    $columnNamePdo = [':name',':status'];
+                    $columnName_Pdo = array(
+                        'name' => ':name',
+                        'status' => ':status'
+                    );
+                    break;
                 
                 default:
                     # code...
