@@ -38,10 +38,10 @@
         */
         private $requestUpdateValues;
         /**
-        * Values pass in the put request
-        * @param $updateId
+        * Ids pass in the put request
+        * @param $updateIds
         */
-        private  $updateId;
+        private  $updateIds;
         /**
         * Standar message for no records
         * @param $noRecords
@@ -157,11 +157,11 @@
         * @param $params
         * return array
         */
-        public function updateRecords($requestUpdateValues,$params,$id){
+        public function updateRecords($requestUpdateValues,$params,$ids){
             
             $this->params = $params;
             $this->requestUpdateValues = $requestUpdateValues;
-            $this->updateId = $id;
+            $this->updateIds = $ids;
 
             $result = $this->modifyRecords();
 
@@ -176,6 +176,7 @@
         * return array
         */
         public function modifyRecords(){
+            
             // Get the sql statement
             $sql = $this->updateSql();
             // Prepare the query
@@ -210,7 +211,9 @@
                 
             }
 
-            $sql .= " WHERE id = {$this->updateId} ";
+            $eachId  = implode(',',$this->updateIds);
+
+            $sql .= " WHERE id IN ({$eachId}) ";
             
             return $sql;
         }

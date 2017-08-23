@@ -134,7 +134,7 @@ $app->post('/api/{service}/add', function(Request $request, Response $response){
 });
 
 // Update Customer
-$app->put('/api/{service}/update/{id}', function(Request $request, Response $response){
+$app->put('/api/{service}/update', function(Request $request, Response $response){
     
     // default response
     $result = array ( 'success' => false );
@@ -146,7 +146,8 @@ $app->put('/api/{service}/update/{id}', function(Request $request, Response $res
 
     // Get's the attributes from the url
     $service = $request->getAttribute('service');
-    $id = $request->getAttribute('id');
+    // $id = $request->getAttribute('id');
+    $ids = $request->getParam('id');
     
     $services = new services($service);
 
@@ -157,7 +158,6 @@ $app->put('/api/{service}/update/{id}', function(Request $request, Response $res
             $requestParamsValues[] = $request->getParam($param);
             $requestUpdateValues[$param] = $request->getParam($param);
         }
-        
     }
     
     try{
@@ -166,7 +166,7 @@ $app->put('/api/{service}/update/{id}', function(Request $request, Response $res
         // Sets the service required
         $item = $factory->create($service);
         // Add the records
-        $result = $item->updateRecords($requestUpdateValues,$params,$id);
+        $result = $item->updateRecords($requestUpdateValues,$params,$ids);
 
     } catch(PDOException $e){
         $result = array (
