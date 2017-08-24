@@ -204,16 +204,11 @@
 
             foreach ($this->requestUpdateValues as $key=>$value) {
                 $sql .= "{$key} = {$this->params['columnName_Pdo'][$key]} ";
-                
                 $i++;
-                
                 if($i < $size) { $sql .= ' , '; }
-                
             }
-
-            $eachId  = implode(',',$this->updateIds);
-
-            $sql .= " WHERE id IN ({$eachId}) ";
+            
+            $sql .= " WHERE id IN ({$$this->updateIds}) ";
             
             return $sql;
         }

@@ -134,7 +134,7 @@ $app->post('/api/{service}/add', function(Request $request, Response $response){
 });
 
 // Update Customer
-$app->put('/api/{service}/update', function(Request $request, Response $response){
+$app->post('/api/{service}/update', function(Request $request, Response $response){
     
     // default response
     $result = array ( 'success' => false );
@@ -148,9 +148,7 @@ $app->put('/api/{service}/update', function(Request $request, Response $response
     $service = $request->getAttribute('service');
     // $id = $request->getAttribute('id');
     $ids = $request->getParam('id');
-    
     $services = new services($service);
-
     $params = $services->getParams();
 
     foreach ($params['columnNames'] as $param) {
