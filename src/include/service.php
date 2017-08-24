@@ -208,7 +208,7 @@
                 if($i < $size) { $sql .= ' , '; }
             }
             
-            $sql .= " WHERE id IN ({$$this->updateIds}) ";
+            $sql .= " WHERE id IN ({$this->updateIds}) ";
             
             return $sql;
         }
