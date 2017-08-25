@@ -35,7 +35,9 @@ require __DIR__ . '/../src/include/factory.php';
 require __DIR__ . '/../src/include/sqlQuery.php';
 require __DIR__ . '/../src/include/service.php';
 require __DIR__ . '/../src/include/services.php';
-
+require __DIR__ . '/../src/include/routeController.php';
+require __DIR__ . '/../src/include/fecthRouteController.php';
+require __DIR__ . '/../src/include/addRouteController.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';
