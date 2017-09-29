@@ -5,6 +5,7 @@
 
     /**
     * Factory class
+    * Hint: https://www.youtube.com/watch?v=VuBVAgwMfLE&index=3&list=PLGJDCzBP5j3xGaW0AGlaVHK2TMEr2XkP9
     */
 
     class factory {

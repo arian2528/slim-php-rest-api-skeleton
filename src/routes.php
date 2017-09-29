@@ -39,7 +39,7 @@
     });
 
     // Example
-    // http://server.net/api/languages/fetch/role_id:1
+    // http://server.net/api/languages/fetch/role_id:1 or fetch/id:all
 
     // Fetch services
     $app->get('/api/{service}/fetch[/{params:.*}]', function(Request $request, Response $response){

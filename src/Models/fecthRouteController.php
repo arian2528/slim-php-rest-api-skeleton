@@ -11,7 +11,10 @@
         * @param $params
         */
         public $params = false;
-
+        /**
+        * Where the values pass in the params will be stored for filtering the data later by appending to the sql statement
+        * @param $filters
+        */
         public $filters = false;
         /**
         * The values pass in the request
@@ -20,12 +23,8 @@
         public $requestParams;
 
         public function __construct($service,$requestParams){
-            
             $this->requestParams = $requestParams;
             parent::__construct($service);
-
-            // No need for this, keep it here until update and add routes are added
-            //$this->params = $this->getParams();
         }
 
         private function verifyRequestParams(){

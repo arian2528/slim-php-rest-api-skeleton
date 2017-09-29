@@ -11,8 +11,6 @@
         * @param $params
         */
         public $params = false;
-
-        public $filters = false;
         /**
         * The values pass in the request
         * @param $requestParamsValues
@@ -24,10 +22,11 @@
             $this->params = $this->getParams();
         }
 
+        /**
+        * Check if the params were included in the request
+        */
         private function verifyRequestParams(){
-            
             return $this->requestParamsValues !== null && sizeof($this->requestParamsValues) > 0 ? true : false;
-
         }
         
         /**
