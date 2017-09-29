@@ -1,5 +1,8 @@
 <?php
     
+    namespace Models;
+    use Models\services as services;
+    
     class routeController {
         /**
         * The result array

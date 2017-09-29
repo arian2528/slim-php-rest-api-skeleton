@@ -1,5 +1,7 @@
 <?php
 
+    namespace Models;
+
     class service extends sqlQuery{
         
         /**
@@ -97,7 +99,7 @@
             // Prepare the query
             $stmt = $this->db->query($sql);
             // Fetch values from PDO array
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
 
         /**

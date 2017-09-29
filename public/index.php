@@ -30,14 +30,16 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/middleware.php';
 
 // Setting up classes
-require __DIR__ . '/../src/include/database.php';
-require __DIR__ . '/../src/include/factory.php';
-require __DIR__ . '/../src/include/sqlQuery.php';
-require __DIR__ . '/../src/include/service.php';
-require __DIR__ . '/../src/include/services.php';
-require __DIR__ . '/../src/include/routeController.php';
-require __DIR__ . '/../src/include/fecthRouteController.php';
-require __DIR__ . '/../src/include/addRouteController.php';
+// require __DIR__ . '/../src/include/database.php';
+// require __DIR__ . '/../src/include/factory.php';
+// require __DIR__ . '/../src/include/sqlQuery.php';
+// require __DIR__ . '/../src/include/service.php';
+// require __DIR__ . '/../src/include/services.php';
+// require __DIR__ . '/../src/include/routeController.php';
+// require __DIR__ . '/../src/include/fecthRouteController.php';
+// require __DIR__ . '/../src/include/addRouteController.php';
+
+require __DIR__ . '/../vendor/autoload.php';
 
 // Register routes
 require __DIR__ . '/../src/routes.php';

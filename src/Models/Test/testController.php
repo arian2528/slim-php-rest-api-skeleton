@@ -1,4 +1,4 @@
-<?php
+<?php namespace Models\Test;
     
     class testController extends routeController {
         

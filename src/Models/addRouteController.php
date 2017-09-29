@@ -1,5 +1,9 @@
 <?php
 
+    namespace Models;
+    use Models\database as database;
+    use Models\factory as factory;
+    
     class addRouteController extends routeController {
 
         /**
@@ -9,7 +13,10 @@
         public $params = false;
 
         public $filters = false;
-
+        /**
+        * The values pass in the request
+        * @param $requestParamsValues
+        */
         public $requestParamsValues;
 
         public function __construct($service){
@@ -22,7 +29,6 @@
             return $this->requestParamsValues !== null && sizeof($this->requestParamsValues) > 0 ? true : false;
 
         }
-        
         
         /**
         * Get's the response
@@ -38,7 +44,7 @@
                 
                 try{
                     // Establish connection with DB
-                    $factory = new factory(new Database);
+                    $factory = new factory(new database);
                     // Sets the service required
                     $item = $factory->create($this->service);
                     // Add the records

@@ -1,5 +1,8 @@
 <?php
 
+    namespace Models;
+    use Models\service as service;
+
     /**
     * Factory class
     */

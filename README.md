@@ -44,13 +44,22 @@ Click on Config Variables. Add each variable as key=value
 access the variables in your code like this : getenv('KEY_NAME');
 https://stackoverflow.com/questions/21592832/use-heroku-config-vars-with-php
 
+## Setting up autoloader with psr-4
+
+Create a folder for the classes inside src, named Models
+Add psr4-autoloading to the composer.json as a autoload property in the json
+Require autoload.php on index.php
+Desc: https://www.youtube.com/watch?v=VGSerlMoIrY
+Extra: https://www.youtube.com/watch?v=t3SvDAoODr8
+
+Remmember to add slash before PDO 
+Desc : https://stackoverflow.com/questions/13426252/pdo-out-of-scope-php-composer
+
 ## Setting up the db connection
 
-Create new folder inside src, called include
-Inside folder include will add all the classes
-Create a file named database.php
+Create a file named database.php inside Models folder
 Design pattern: Singleton
-Require the class on index.php
+run composer dump-autoload -o after a new class is added.
 
 ## Customize the REst API part
 
@@ -88,3 +97,5 @@ run: heroku create
 This will create the app on Heroku
 
 run: git push heroku master
+
+
